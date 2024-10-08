@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-// Import routes
+// Import Routes
 const authRoutes = require("./routes/auth");
+const wallpaperRoutes = require("./routes/wallpapers");
+const favoriteRoutes = require("./routes/favorites");
 
 const app = express();
 
@@ -14,7 +16,10 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+
 app.use("/api/auth", authRoutes);
+app.use("/api/wallpapers", wallpaperRoutes);
+app.use("/api/favorites", favoriteRoutes);
 
 // Connect to MongoDB
 mongoose
