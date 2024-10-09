@@ -1,4 +1,6 @@
 import 'package:client/services/auth.dart';
+import 'package:client/widgets/reusable/custum_button.dart';
+import 'package:client/widgets/reusable/custum_input.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -48,52 +50,79 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Register", style: TextStyle(fontSize: 28)),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: usernameController,
-                  decoration: const InputDecoration(labelText: "Username"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Please enter your username" : null,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: "Email"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Please enter your email" : null,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(labelText: "Password"),
-                  validator: (value) =>
-                      value!.isEmpty ? "Please enter your password" : null,
-                ),
-                const SizedBox(height: 20),
-                isLoading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                        onPressed: register,
-                        child: const Text("Register"),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const Row(
+                      children: [
+                        Text(
+                          "WallFit",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Make each time a real pleasure with unique wallpapers from QHD Wallpapers collections. Let your device become a source of self-expression, joy, inspiration and more...  ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Image.asset(
+                      "assets/images/logo.png",
+                      height: MediaQuery.of(context).size.height * 0.3,
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    CustomInputField(
+                      controller: usernameController,
+                      labelText: "Username",
+                      validator: (value) =>
+                          value!.isEmpty ? "Please enter your username" : null,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomInputField(
+                      controller: emailController,
+                      labelText: "Email",
+                      validator: (value) =>
+                          value!.isEmpty ? "Please enter your email" : null,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomInputField(
+                      controller: passwordController,
+                      labelText: "Password",
+                      obscureText: true,
+                      validator: (value) =>
+                          value!.isEmpty ? "Please enter your password" : null,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomButton(
+                      isLoading: isLoading,
+                      onPressed: register,
+                      labelText: "Register",
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Already have an account? Login",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
                       ),
-                const SizedBox(height: 20),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Already have an account? Login"),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

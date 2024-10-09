@@ -1,6 +1,7 @@
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/login.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: GoogleFonts.openSans().fontFamily,
+        brightness: Brightness.dark,
       ),
       home: CheckAuthStatus(),
     );

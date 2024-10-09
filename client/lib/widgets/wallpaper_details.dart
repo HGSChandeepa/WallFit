@@ -1,21 +1,60 @@
-import 'package:flutter/material.dart';
 import 'package:client/models/wallpaper.dart';
+import 'package:client/pages/login.dart';
+import 'package:client/services/auth.dart';
+import 'package:client/services/fav_service.dart';
+import 'package:client/widgets/reusable/custum_button.dart';
+import 'package:flutter/material.dart';
 
 class WallpaperDetailsPage extends StatelessWidget {
   final Wallpaper wallpaper;
 
   WallpaperDetailsPage({required this.wallpaper});
 
-  void _addToFavorites(Wallpaper wallpaper) {
-    // Add logic to save the wallpaper to favorites (e.g., using a local database or API call)
-    print("Added to favorites: ${wallpaper.id}");
+  void _addToFavorites(Wallpaper wallpaper, BuildContext context) async {
+    try {
+      await FavoriteService().addToFavorites(
+        id: wallpaper.id,
+        url: wallpaper.url,
+        description: wallpaper.description,
+        photographer: wallpaper.photographer,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Added to favorites'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (e) {
+      print("Failed to add to favorites: $e");
+
+      // Check if the error indicates a token issue
+      if (e.toString().contains("No valid token found") ||
+          e.toString().contains("Failed to add to favorites")) {
+        AuthService().logout();
+        // Navigate to login page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
+        print("User logged out due to invalid token.");
+      } else {
+        // Show an error message for other issues
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error adding to favorites. Please try again.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Wallpaper Details"),
+        title: const Text("Wallpaper Details"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,7 +66,8 @@ class WallpaperDetailsPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(
+                16.0), // Increased padding for better spacing
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,17 +82,24 @@ class WallpaperDetailsPage extends StatelessWidget {
                 Text(
                   "Photographer: ${wallpaper.photographer}",
                   style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+                Text(
+                  wallpaper.description,
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                   ),
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton.icon(
+                CustomButton(
+                  isLoading: false, // No loading state for this button
                   onPressed: () {
-                    _addToFavorites(wallpaper);
+                    _addToFavorites(wallpaper, context);
                   },
-                  icon: const Icon(Icons.favorite),
-                  label: const Text("Add to Favorites"),
+                  labelText: "Add to Favorites",
                 ),
               ],
             ),

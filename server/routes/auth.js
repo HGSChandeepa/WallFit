@@ -16,16 +16,13 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    // Check for existing user
-    const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ msg: "User already exists" });
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = new User({
       username,
       email,
@@ -34,7 +31,6 @@ router.post("/register", async (req, res) => {
 
     const savedUser = await newUser.save();
 
-    // Generate JWT
     const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
@@ -56,21 +52,17 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  // Simple validation
   if (!email || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
 
   try {
-    // Check for existing user
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "User does not exist" });
 
-    // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
-    // Generate JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });

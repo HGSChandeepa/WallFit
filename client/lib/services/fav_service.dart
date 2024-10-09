@@ -12,24 +12,33 @@ class FavoriteService {
     required String description,
     required String photographer,
   }) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
 
-    final response = await http.post(
-      Uri.parse('$baseUrl/add'),
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': token!,
-      },
-      body: jsonEncode({
-        'id': id,
-        'url': url,
-        'description': description,
-        'photographer': photographer,
-      }),
-    );
+      print(token);
 
-    if (response.statusCode != 200) {
+      final response = await http.post(
+        Uri.parse('$baseUrl/add'),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': token!,
+        },
+        body: jsonEncode({
+          'id': id,
+          'url': url,
+          'description': description,
+          'photographer': photographer,
+        }),
+      );
+
+      print(response.body);
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to add to favorites');
+      }
+    } catch (e) {
+      print('Error adding to favorites: $e');
       throw Exception('Failed to add to favorites');
     }
   }

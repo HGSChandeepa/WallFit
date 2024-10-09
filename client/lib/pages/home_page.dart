@@ -1,5 +1,6 @@
-import 'package:client/widgets/favorites_page.dart';
-import 'package:client/widgets/wallpapers_page.dart';
+import 'package:client/constants/colors.dart';
+import 'package:client/pages/favorites_page.dart';
+import 'package:client/pages/wallpapers_page.dart';
 import 'package:flutter/material.dart';
 import 'package:client/pages/login.dart';
 import 'package:client/services/auth.dart';
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Favorites',
           ),
         ],
+        selectedItemColor: primaryColor,
       ),
     );
   }
