@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Assuming you have defined primaryColor in your constants file
-const primaryColor = Color(0xFF6200EE);
-
 class CustomButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPressed;
