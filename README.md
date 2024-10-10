@@ -2,6 +2,8 @@
 ### (DP Education Project 14)
 
 A Flutter app to save, view, and set wallpapers as favorites. The app interacts with a Node.js backend that handles wallpaper storage and management.
+![APP](https://github.com/HGSChandeepa/WallFit/blob/main/app(1).png)
+
 
 ## Features
 
