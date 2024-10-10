@@ -65,7 +65,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   Future<void> _setWallpaper(String url) async {
     setState(() {
-      _isLoading = true; // Optionally show a loading indicator
+      _isLoading = true; 
     });
 
     try {
@@ -88,7 +88,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
       // Rebuild the UI after setting wallpaper
       setState(() {
-        _isLoading = false; // Hide loading indicator
+        _isLoading = false; 
       });
     } catch (e) {
       print("Failed to set wallpaper: $e");
@@ -100,7 +100,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       );
 
       setState(() {
-        _isLoading = false; // Hide loading indicator if error occurs
+        _isLoading = false; 
       });
     }
   }
