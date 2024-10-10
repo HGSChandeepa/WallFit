@@ -67,7 +67,7 @@ class WallpaperDetailsPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(
-                16.0), // Increased padding for better spacing
+                16.0), 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -95,7 +95,7 @@ class WallpaperDetailsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 CustomButton(
-                  isLoading: false, // No loading state for this button
+                  isLoading: false,
                   onPressed: () {
                     _addToFavorites(wallpaper, context);
                   },
