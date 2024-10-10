@@ -1,6 +1,7 @@
 import 'package:client/services/fav_service.dart';
 import 'package:client/widgets/reusable/custum_button.dart';
 import 'package:flutter/material.dart';
+import 'package:async_wallpaper/async_wallpaper.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override
@@ -62,6 +63,48 @@ class _FavoritesPageState extends State<FavoritesPage> {
     }
   }
 
+  Future<void> _setWallpaper(String url) async {
+    setState(() {
+      _isLoading = true; // Optionally show a loading indicator
+    });
+
+    try {
+      bool result = await AsyncWallpaper.setWallpaper(
+        url: url,
+        wallpaperLocation: AsyncWallpaper.BOTH_SCREENS,
+        toastDetails: ToastDetails.success(),
+        errorToastDetails: ToastDetails.error(),
+        goToHome: true,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result
+              ? 'Wallpaper set successfully!'
+              : 'Failed to set wallpaper.'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      // Rebuild the UI after setting wallpaper
+      setState(() {
+        _isLoading = false; // Hide loading indicator
+      });
+    } catch (e) {
+      print("Failed to set wallpaper: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to set wallpaper. Please try again.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      setState(() {
+        _isLoading = false; // Hide loading indicator if error occurs
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,12 +149,19 @@ class _FavoritesPageState extends State<FavoritesPage> {
                                 ),
                                 const SizedBox(height: 12),
                                 CustomButton(
-                                  isLoading:
-                                      false, // No loading indicator for this button
+                                  isLoading: false,
                                   onPressed: () {
                                     removeFromFavorites(wallpaper['id']);
                                   },
                                   labelText: "Remove from favorites",
+                                ),
+                                const SizedBox(height: 16),
+                                CustomButton(
+                                  isLoading: false,
+                                  onPressed: () {
+                                    _setWallpaper(wallpaper['url']);
+                                  },
+                                  labelText: "Set as wallpaper",
                                 ),
                               ],
                             ),

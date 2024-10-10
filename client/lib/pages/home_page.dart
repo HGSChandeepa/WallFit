@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wallpaper App"),
+        title: const Text("WallFit"),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

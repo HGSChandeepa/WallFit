@@ -82,7 +82,7 @@ class WallpaperDetailsPage extends StatelessWidget {
                 Text(
                   "Photographer: ${wallpaper.photographer}",
                   style: const TextStyle(
-                    fontSize: 12,
+                    fontSize: 12  ,
                     color: Colors.grey,
                   ),
                 ),
