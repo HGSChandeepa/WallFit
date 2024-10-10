@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
 
-                    // Refactor input fields using InputField widget
+                    
                     CustomInputField(
                       controller: emailController,
                       labelText: "Email",
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Use the LoginButton widget
+                    
                     CustomButton(
                       isLoading: isLoading,
                       onPressed: login,
